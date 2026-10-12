@@ -304,8 +304,8 @@ extension ESPBleTransport: CBCentralManagerDelegate {
                 let serviceUUID = serviceUUIDs[0]
                 currentPeripheral?.discoverServices([serviceUUID])
             } else {
-                /* VASH: advert packets delivered before the scan response
-                   merges carry no service UUIDs — without this fallback
+/* VASH: advert packets delivered before the scan response
+                   merges carry no service UUIDs - without this fallback
                    service discovery never runs and the connect stalls
                    until bleConnectTimer. */
                 currentPeripheral?.discoverServices(nil)
