@@ -303,6 +303,12 @@ extension ESPBleTransport: CBCentralManagerDelegate {
             } else if let serviceUUIDs = advertisementData[ESPBLEAdvertisementKeys.serviceUUIDs] as? [CBUUID], serviceUUIDs.count > 0 {
                 let serviceUUID = serviceUUIDs[0]
                 currentPeripheral?.discoverServices([serviceUUID])
+            } else {
+                /* VASH: advert packets delivered before the scan response
+                   merges carry no service UUIDs — without this fallback
+                   service discovery never runs and the connect stalls
+                   until bleConnectTimer. */
+                currentPeripheral?.discoverServices(nil)
             }
         } else {
             currentPeripheral?.discoverServices(nil)
